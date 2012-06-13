@@ -47,5 +47,8 @@ public class OAuthConstants
   public static final String CLIENT_SECRET = "client_secret";
   public static final String REDIRECT_URI = "redirect_uri";
   public static final String CODE = "code";
+  public static final String STATE = "state";
+  public static final String ACCESS_TYPE = "access_type";
+  public static final String APPROVAL_PROMPT = "approval_prompt";
   
 }

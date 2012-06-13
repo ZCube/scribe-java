@@ -25,6 +25,7 @@ public class Google2Example
                                   .apiKey(apiKey)
                                   .apiSecret(apiSecret)
                                   .scope(SCOPE)
+                                  .accessType("offline")
                                   .callback("oob")
                                   .build();
     Scanner in = new Scanner(System.in);

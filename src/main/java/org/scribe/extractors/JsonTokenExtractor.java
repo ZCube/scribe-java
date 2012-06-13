@@ -8,9 +8,9 @@ import org.scribe.utils.*;
 
 public class JsonTokenExtractor implements AccessTokenExtractor
 {
-  private Pattern accessTokenPattern = Pattern.compile("\"access_token\":\\s*\"(\\S*?)\"");
+  private Pattern accessTokenPattern = Pattern.compile("\"access_token\"\\s*:\\s*\"(\\S*?)\"");
 
-  private Pattern refreshTokenPattern = Pattern.compile("\"refresh_token\":\\s*\"(\\S*?)\"");
+  private Pattern refreshTokenPattern = Pattern.compile("\"refresh_token\"\\s*:\\s*\"(\\S*?)\"");
 
   public Token extract(String response)
   {

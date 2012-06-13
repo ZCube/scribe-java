@@ -46,19 +46,13 @@ public class OAuth20ServiceImpl implements OAuthService
       request.addParameter(verb, OAuthConstants.REDIRECT_URI, config.getCallback());
       if (config.hasScope())
         request.addParameter(verb, OAuthConstants.SCOPE, config.getScope());
-      if (config.hasState())
-        request.addParameter(verb, OAuthConstants.SCOPE, config.getState());
-      if (config.hasAccessType())
-        request.addParameter(verb, OAuthConstants.SCOPE, config.getAccessType());
-      if (config.hasApprovalPrompt())
-        request.addParameter(verb, OAuthConstants.SCOPE, config.getApprovalPrompt());
     }
 
     Response response = request.send();
     Token token = api.getAccessTokenExtractor().extract(response.getBody());
     if (requestToken != null && requestToken.getRefreshToken() != null)
     {
-      return new Token(token.getToken(), token.getSecret(), token.getRefreshToken(), token.getRawResponse());
+      return new Token(token.getToken(), token.getSecret(), requestToken.getRefreshToken(), token.getRawResponse());
     }
     return token;
   }
