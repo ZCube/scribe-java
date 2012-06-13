@@ -26,7 +26,7 @@ public class TokenExtractorImpl implements RequestTokenExtractor, AccessTokenExt
     Preconditions.checkEmptyString(response, "Response body is incorrect. Can't extract a token from an empty string");
     String token = extract(response, TOKEN_REGEX);
     String secret = extract(response, SECRET_REGEX);
-    return new Token(token, secret, response);
+    return new Token(token, secret, null, response);
   }
 
   private String extract(String response, Pattern p)

@@ -148,6 +148,20 @@ class Request
   }
 
   /**
+   * Add a Parameter
+   * 
+   * @param key the parameter name
+   * @param value the parameter value
+   */
+  public void addParameter(Verb verb, String key, String value)
+  {
+    if (verb == Verb.PUT || verb == Verb.POST)
+      this.bodyParams.add(key, value);
+    else
+      this.querystringParams.add(key, value);
+  }
+
+  /**
    * Add a QueryString parameter
    *
    * @param key the parameter name

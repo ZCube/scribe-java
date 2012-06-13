@@ -27,14 +27,40 @@ public class OAuth20ServiceImpl implements OAuthService
    */
   public Token getAccessToken(Token requestToken, Verifier verifier)
   {
-    OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
-    request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
-    request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
-    request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
-    request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
-    if(config.hasScope()) request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
+    OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(),
+        api.getAccessTokenEndpoint());
+
+    Verb verb = api.getAccessTokenVerb();
+    request.addParameter(verb, OAuthConstants.CLIENT_ID, config.getApiKey());
+    request.addParameter(verb, OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+
+    if (requestToken != null && requestToken.getRefreshToken() != null)
+    {
+      request.addParameter(verb, OAuthConstants.GRANT_TYPE, "refresh_token");
+      request.addParameter(verb, OAuthConstants.REFRESH_TOKEN, requestToken.getRefreshToken());
+    }
+    else
+    {
+      request.addParameter(verb, OAuthConstants.GRANT_TYPE, "authorization_code");
+      request.addParameter(verb, OAuthConstants.CODE, verifier.getValue());
+      request.addParameter(verb, OAuthConstants.REDIRECT_URI, config.getCallback());
+      if (config.hasScope())
+        request.addParameter(verb, OAuthConstants.SCOPE, config.getScope());
+      if (config.hasState())
+        request.addParameter(verb, OAuthConstants.SCOPE, config.getState());
+      if (config.hasAccessType())
+        request.addParameter(verb, OAuthConstants.SCOPE, config.getAccessType());
+      if (config.hasApprovalPrompt())
+        request.addParameter(verb, OAuthConstants.SCOPE, config.getApprovalPrompt());
+    }
+
     Response response = request.send();
-    return api.getAccessTokenExtractor().extract(response.getBody());
+    Token token = api.getAccessTokenExtractor().extract(response.getBody());
+    if (requestToken != null && requestToken.getRefreshToken() != null)
+    {
+      return new Token(token.getToken(), token.getSecret(), token.getRefreshToken(), token.getRawResponse());
+    }
+    return token;
   }
 
   /**

@@ -13,6 +13,7 @@ public class Token implements Serializable
 	
   private final String token;
   private final String secret;
+  private final String refreshToken;
   private final String rawResponse;
 
   /**
@@ -23,13 +24,14 @@ public class Token implements Serializable
    */
   public Token(String token, String secret)
   {
-    this(token, secret, null);
+    this(token, secret, null, null);
   }
 
-  public Token(String token, String secret, String rawResponse)
+  public Token(String token, String secret, String refreshToken, String rawResponse)
   {
     this.token = token;
     this.secret = secret;
+    this.refreshToken = refreshToken;
     this.rawResponse = rawResponse;
   }
 
@@ -41,6 +43,11 @@ public class Token implements Serializable
   public String getSecret()
   {
     return secret;
+  }
+
+  public String getRefreshToken()
+  {
+    return refreshToken;
   }
 
   public String getRawResponse()

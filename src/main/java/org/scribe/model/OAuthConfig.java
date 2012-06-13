@@ -13,15 +13,18 @@ public class OAuthConfig
   private final String apiSecret;
   private final String callback;
   private final SignatureType signatureType;
+  private final String state;
+  private final String approvalPrompt;
+  private final String accessType;
   private final String scope;
   private final OutputStream debugStream;
   
   public OAuthConfig(String key, String secret)
   {
-    this(key, secret, null, null, null, null);
+    this(key, secret, null, null, null, null, null, null, null);
   }
 
-  public OAuthConfig(String key, String secret, String callback, SignatureType type, String scope, OutputStream stream)
+  public OAuthConfig(String key, String secret, String callback, SignatureType type, String scope, String state, String accessType, String approvalPrompt, OutputStream stream)
   {
     this.apiKey = key;
     this.apiSecret = secret;
@@ -29,6 +32,9 @@ public class OAuthConfig
     this.signatureType = type;
     this.scope = scope;
     this.debugStream = stream;
+    this.state = state;
+    this.accessType = accessType;
+    this.approvalPrompt = approvalPrompt;
   }
 
   public String getApiKey()
@@ -61,6 +67,36 @@ public class OAuthConfig
     return scope != null;
   }
 
+  public String getState()
+  {
+    return state;
+  }
+
+  public boolean hasState()
+  {
+    return state != null;
+  }
+
+  public String getApprovalPrompt()
+  {
+    return approvalPrompt;
+  }
+
+  public boolean hasApprovalPrompt()
+  {
+    return approvalPrompt != null;
+  }
+
+  public String getAccessType()
+  {
+    return accessType;
+  }
+  
+  public boolean hasAccessType()
+  {
+    return accessType != null;
+  }
+  
   public void log(String message)
   {
     if (debugStream != null)
@@ -76,4 +112,5 @@ public class OAuthConfig
       }
     }
   }
+
 }
