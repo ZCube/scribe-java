@@ -78,7 +78,17 @@ public class OAuth20ServiceImpl implements OAuthService
    */
   public void signRequest(Token accessToken, OAuthRequest request)
   {
-    request.addQuerystringParameter(OAuthConstants.ACCESS_TOKEN, accessToken.getToken());
+    switch (config.getSignatureType())
+    {
+    case Header:
+      config.log("using Http Header signature");
+      request.addHeader(OAuthConstants.HEADER, String.format("%s %s", "Bearer", accessToken.getToken()));
+      break;
+    case QueryString:
+      config.log("using Querystring signature");
+      request.addQuerystringParameter(OAuthConstants.ACCESS_TOKEN, accessToken.getToken());
+      break;
+    }
   }
 
   /**

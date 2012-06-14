@@ -62,6 +62,6 @@ public class Token implements Serializable
   @Override
   public String toString()
   {
-    return String.format("Token[%s , %s]", token, secret);
+    return String.format("Token[%s , %s, %s]", token, secret, refreshToken);
   }
 }
